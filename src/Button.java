@@ -4,6 +4,8 @@ public class Button extends UIElement{
     final int ID;
     String text;
 
+    EventListener buttonHandler; // for now, just one listener per button
+
     Button(int ID, float xPosition, float yPosition, float width, float height, String text){
         this.ID = ID;
         this.text = text;
@@ -23,5 +25,13 @@ public class Button extends UIElement{
         app.fill(0);
         app.textSize(30);
         app.text(text, position.x + 10, position.y + 30);
+    }
+
+    public void addEventListener(EventListener buttonHandler) {
+        this.buttonHandler = buttonHandler;
+    }
+
+    public void onClick(){
+        buttonHandler.actionPerformed(ID);
     }
 }

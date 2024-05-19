@@ -45,5 +45,11 @@ public class ContentGenerationDemoTool extends PApplet {
 
     @Override
     public void mouseClicked() {
+        for (Button button: sidebar.buttons){
+           if (button.isMouseOver(mouseX, mouseY)){
+                button.onClick();
+                break;
+            }
+        }
     }
 }
