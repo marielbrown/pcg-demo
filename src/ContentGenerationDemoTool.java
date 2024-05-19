@@ -1,9 +1,13 @@
+import pcg_tools.Digger;
+import pcg_tools.PCGTool;
 import processing.core.PApplet;
 
 public class ContentGenerationDemoTool extends PApplet {
 
     Sidebar sidebar;
     Canvas canvas;
+
+    PCGTool activeTool;
 
     public static void main(String[] args){
         String[] processingArgs = {"Level Designer"};
@@ -24,6 +28,8 @@ public class ContentGenerationDemoTool extends PApplet {
         // runs once after the processing sketch has been set up
         sidebar = new Sidebar(this);
         canvas = new Canvas(this);
+
+        activeTool = new Digger();
     }
 
     @Override
@@ -31,6 +37,10 @@ public class ContentGenerationDemoTool extends PApplet {
         // called every frame
         update();
         render();
+    }
+
+    public void setActiveTool(PCGTool activeTool) {
+        this.activeTool = activeTool;
     }
 
     private void update(){
