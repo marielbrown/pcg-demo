@@ -2,10 +2,8 @@ import processing.core.PApplet;
 
 public class Sidebar extends UIElement{
 
-    /*
     public Button[] buttons;
-    EventListener buttonHandler = new LevelObjectHandler();
-     */
+    //EventListener buttonHandler = new ToolButtonHandler();
 
     Sidebar(PApplet app) {
         width = app.width * 0.2f;   // 1/5 size of screen
@@ -13,10 +11,11 @@ public class Sidebar extends UIElement{
         position.x = 0;
         position.y = 0;
 
-        /*
-        buttons = new Button[1];
-        buttons[0] = new Button(10, position.x + 15, position.y + 45, 40, 40, "");
 
+        buttons = new Button[1];
+        buttons[0] = new Button(0, position.x + 40, position.y + 45, 200, 40, "PCG Method 1");
+
+        /*
         for (Button button: buttons){
             button.addEventListener(buttonHandler);
         }
@@ -29,10 +28,9 @@ public class Sidebar extends UIElement{
         app.fill(120, 120, 120);
         app.rect(position.x, position.y, width, height);
 
-        /*
         for (Button button: buttons){
             button.render(app);
         }
-         */
+
     }
 }
