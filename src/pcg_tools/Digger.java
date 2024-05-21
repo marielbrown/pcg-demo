@@ -1,7 +1,5 @@
 package pcg_tools;
 
-import processing.core.PApplet;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Digger implements PCGTool{
@@ -10,9 +8,10 @@ public class Digger implements PCGTool{
 
     // parameters adjustable by user
     int mapWidth = 70, mapHeight = 50;
-    int percentageTraversable = 70;
-    // todo: room size
-    // todo: chance modifiers
+    int percentageTraversable = 20;
+    int minimumRoomDimension = 2, maximumRoomDimension = 6;
+    float roomGenerationChanceModifier = -100;
+    float directionChangeChanceModifier = 1;    //todo: bug if less than 1
 
     // state variables updated in code
     private int[] direction;
@@ -72,16 +71,16 @@ public class Digger implements PCGTool{
             direction = selectDirection();
             directionChangeChance = 0;
         } else {
-            directionChangeChance += 1;
+            directionChangeChance += directionChangeChanceModifier;
         }
 
         int roomGenerationValue = ThreadLocalRandom.current().nextInt(0, 100);
         if (roomGenerationValue < roomGenerationChance) {
             //generate room
-            currentTraversableCells += addRoom(agentX, agentY, mapWidth - 1, mapHeight - 1);
-            roomGenerationChance = -10;
+            currentTraversableCells += addRoom(agentX, agentY, mapWidth - 1, mapHeight - 1); //todo: are arguments needed here?
+            roomGenerationChance = -10; //todo: remove magic number
         } else {
-            roomGenerationChance += 1;
+            roomGenerationChance += roomGenerationChanceModifier;
         }
     }
 
@@ -96,12 +95,10 @@ public class Digger implements PCGTool{
     }
 
     private int addRoom(int agentX, int agentY, int totalWidth, int totalHeight){
-        int maxSize = 6;
-        int minSize = 2;
         int addedCells = 0;
 
-        int roomWidth = Math.round(ThreadLocalRandom.current().nextInt(minSize, maxSize));
-        int roomHeight = Math.round(ThreadLocalRandom.current().nextInt(minSize, maxSize));
+        int roomWidth = Math.round(ThreadLocalRandom.current().nextInt(minimumRoomDimension, maximumRoomDimension));
+        int roomHeight = Math.round(ThreadLocalRandom.current().nextInt(minimumRoomDimension, maximumRoomDimension));
 
 
         int startX = agentX - roomWidth / 2;
