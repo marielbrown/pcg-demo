@@ -22,7 +22,7 @@ public class Digger implements PCGTool{
     @Override
     public void runGeneration(){
         resetTool();
-        direction = selectDirection();
+        direction = selectDirection(ThreadLocalRandom.current().nextInt(0, 4));
 
         while (!isFinished()){
             executeStep();
@@ -43,34 +43,27 @@ public class Digger implements PCGTool{
     }
 
     public void executeStep(){
-        // dig out cell
-        if (!map[agentX][agentY]){
-            map[agentX][agentY] = true;
-            currentTraversableCells++;
-        }
+        digOutCell(agentX, agentY);
 
         // if on edge, face away
+        // this does not allow digger to travel along edges
         if (agentX == 0) {
-            direction[0] = 1;
-            direction[1] = 0;   // set other direction to 0 to prevent diagonal movement
+            direction = selectDirection(0);
         } else if (agentX == mapWidth - 1) {
-            direction[0] = -1;
-            direction[1] = 0;
+            direction = selectDirection(1);
         } else if (agentY == 0) {
-            direction[1] = 1;
-            direction[0] = 0;
+            direction = selectDirection(2);
         } else if (agentY == mapHeight - 1) {
-            direction[1] = -1;
-            direction[0] = 0;
+            direction = selectDirection(3);
         }
 
-        agentX += direction[0];
+        agentX += direction[0]; // move agent
         agentY += direction[1];
 
         int directionChangeValue = ThreadLocalRandom.current().nextInt(0, 100);
         if (directionChangeValue < directionChangeChance) {
             //change direction
-            direction = selectDirection();
+            direction = selectDirection(ThreadLocalRandom.current().nextInt(0, 4));
             directionChangeChance = 0;
         } else {
             directionChangeChance += directionChangeChanceModifier;
@@ -78,16 +71,14 @@ public class Digger implements PCGTool{
 
         int roomGenerationValue = ThreadLocalRandom.current().nextInt(0, 100);
         if (roomGenerationValue < roomGenerationChance) {
-            //generate room
-            currentTraversableCells += addRoom(agentX, agentY, mapWidth - 1, mapHeight - 1); //todo: are arguments needed here?
-            roomGenerationChance = -10; //todo: remove magic number
+            generateRoom();
+            roomGenerationChance = -maximumRoomDimension; // reduces room overlapping by delaying placement of next room
         } else {
             roomGenerationChance += roomGenerationChanceModifier;
         }
     }
 
-    private int[] selectDirection(){
-        int directionValue = ThreadLocalRandom.current().nextInt(0, 4);;
+    private int[] selectDirection(int directionValue){
         return switch (directionValue) {
             case 0 -> new int[]{1, 0};
             case 1 -> new int[]{-1, 0};
@@ -95,15 +86,15 @@ public class Digger implements PCGTool{
             default -> new int[]{0, -1};
         };
     }
+    private void generateRoom(){
+        int totalWidth = mapWidth - 1;
+        int totalHeight = mapHeight - 1;
 
-    private int addRoom(int agentX, int agentY, int totalWidth, int totalHeight){
-        int addedCells = 0;
-
-        int roomWidth = Math.round(ThreadLocalRandom.current().nextInt(minimumRoomDimension, maximumRoomDimension));
-        int roomHeight = Math.round(ThreadLocalRandom.current().nextInt(minimumRoomDimension, maximumRoomDimension));
+        int roomWidth = ThreadLocalRandom.current().nextInt(minimumRoomDimension, maximumRoomDimension);
+        int roomHeight = ThreadLocalRandom.current().nextInt(minimumRoomDimension, maximumRoomDimension);
 
 
-        int startX = agentX - roomWidth / 2;
+        int startX = agentX - roomWidth / 2;    // centre room on digger
         int startY = agentY - roomHeight / 2;
         int endX, endY;
 
@@ -111,7 +102,6 @@ public class Digger implements PCGTool{
         if (startX < 0){
             startX = 0;
         }
-
         if (startY < 0){
             startY = 0;
         }
@@ -125,7 +115,6 @@ public class Digger implements PCGTool{
             startX -= endX - totalWidth;
             endX = totalWidth;
         }
-
         if (endY > totalHeight){
             startY -= endY - totalHeight;
             endY = totalHeight;
@@ -134,20 +123,23 @@ public class Digger implements PCGTool{
         // draw room
         for (int x = startX; x <= endX; x++){
             for (int y = startY; y  <= endY; y++){
-                // dig out cell
-                if (!map[x][y]){
-                    map[x][y] = true;
-                    addedCells ++;
-                }
+                digOutCell(x, y);
             }
         }
-
-        return addedCells;
     }
+    private void digOutCell(int x, int y){
+        if (!map[x][y]){
+            map[x][y] = true;
+            currentTraversableCells++;
+        }
+    }
+
+    @Override
     public boolean isFinished(){
         return currentTraversableCells >= targetTraversableCells;
     }
 
+    @Override
     public boolean[][] getMap() {
         return map;
     }
