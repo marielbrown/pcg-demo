@@ -13,7 +13,7 @@ public class CanvasButtonHandler implements EventListener {
         switch (ID){
             case 1:
                 System.out.println("map button clicked!");
-                app.activeTool.generateNewMap(app, 70, 50);
+                app.activeTool.runGeneration();
                 app.canvas.setMap(app.activeTool.getMap()); //todo: temporary solution
         }
     }

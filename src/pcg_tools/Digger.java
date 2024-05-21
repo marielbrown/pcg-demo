@@ -2,85 +2,106 @@ package pcg_tools;
 
 import processing.core.PApplet;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Digger implements PCGTool{
 
     private boolean[][] map; // true if cell is traversable
-    public void generateNewMap(PApplet app, int mapWidth, int mapHeight){
+
+    // parameters adjustable by user
+    int mapWidth = 70, mapHeight = 50;
+    int percentageTraversable = 70;
+    // todo: room size
+    // todo: chance modifiers
+
+    // state variables updated in code
+    private int[] direction;
+    private int agentX, agentY;
+    private int targetTraversableCells, currentTraversableCells;
+    private int directionChangeChance, roomGenerationChance;
+
+    @Override
+    public void runGeneration(){
+        resetTool();
+        direction = selectDirection();
+
+        while (!isFinished()){
+            executeStep();
+        }
+    }
+
+    @Override
+    public void resetTool() {
         map = new boolean[mapWidth][mapHeight];
 
-        int directionChangeChance = 5;
-        int roomChance = 100; // always place room at start
-        float minimumLevelSize = mapWidth * mapHeight * 0.7f;
-        int currentLevelSize = 0;
+        directionChangeChance = 5;
+        roomGenerationChance = 100; // always place room at start // todo: make this optional
+        targetTraversableCells = (int) (mapWidth * mapHeight * (percentageTraversable / 100f));
+        currentTraversableCells = 0;
 
-        int agentX = mapWidth / 2; // start in centre
-        int agentY = mapHeight / 2;
+        agentX = mapWidth / 2; // start in centre
+        agentY = mapHeight / 2;
+    }
 
-        int[] direction = selectDirection(app);
-        while (currentLevelSize < minimumLevelSize){
-            // dig out cell
-            if (!map[agentX][agentY]){
-                map[agentX][agentY] = true;
-                currentLevelSize++;
-            }
+    public void executeStep(){
+        // dig out cell
+        if (!map[agentX][agentY]){
+            map[agentX][agentY] = true;
+            currentTraversableCells++;
+        }
 
-            // if on edge, face away
-            if (agentX == 0) {
-                direction[0] = 1;
-            } else if (agentX == mapWidth - 1) {
-                direction[0] = -1;
-            }
+        // if on edge, face away
+        if (agentX == 0) {
+            direction[0] = 1;
+        } else if (agentX == mapWidth - 1) {
+            direction[0] = -1;
+        }
 
-            if (agentY == 0) {
-                direction[1] = 1;
-            } else if (agentY == mapHeight - 1) {
-                direction[1] = -1;
-            }
+        if (agentY == 0) {
+            direction[1] = 1;
+        } else if (agentY == mapHeight - 1) {
+            direction[1] = -1;
+        }
 
-            agentX += direction[0];
-            agentY += direction[1];
+        agentX += direction[0];
+        agentY += direction[1];
 
-            int directionChangeValue = (int) app.random(0, 99);
-            if (directionChangeValue < directionChangeChance) {
-                //change direction
-                direction = selectDirection(app);
-                directionChangeChance = 0;
-            } else {
-                directionChangeChance += 1;
-            }
+        int directionChangeValue = ThreadLocalRandom.current().nextInt(0, 100);
+        if (directionChangeValue < directionChangeChance) {
+            //change direction
+            direction = selectDirection();
+            directionChangeChance = 0;
+        } else {
+            directionChangeChance += 1;
+        }
 
-            int roomGenerationValue = (int) app.random(0, 99);
-            if (roomGenerationValue < roomChance) {
-                //generate room
-                currentLevelSize += addRoom(app, agentX, agentY, mapWidth - 1, mapHeight - 1);
-                roomChance = -10;
-            } else {
-                roomChance += 1;
-            }
+        int roomGenerationValue = ThreadLocalRandom.current().nextInt(0, 100);
+        if (roomGenerationValue < roomGenerationChance) {
+            //generate room
+            currentTraversableCells += addRoom(agentX, agentY, mapWidth - 1, mapHeight - 1);
+            roomGenerationChance = -10;
+        } else {
+            roomGenerationChance += 1;
         }
     }
 
-    private int[] selectDirection(PApplet app){
-        int directionValue = (int) app.random(0,5);
-        switch (directionValue) {
-            case 0:
-                return new int[] {1, 0};
-            case 1:
-                return new int[] {-1, 0};
-            case 2:
-                return new int[] {0, 1};
-            default:
-                return new int[] {0, -1};
-        }
+    private int[] selectDirection(){
+        int directionValue = ThreadLocalRandom.current().nextInt(0, 4);;
+        return switch (directionValue) {
+            case 0 -> new int[]{1, 0};
+            case 1 -> new int[]{-1, 0};
+            case 2 -> new int[]{0, 1};
+            default -> new int[]{0, -1};
+        };
     }
 
-    private int addRoom(PApplet app, int agentX, int agentY, int totalWidth, int totalHeight){
+    private int addRoom(int agentX, int agentY, int totalWidth, int totalHeight){
         int maxSize = 6;
         int minSize = 2;
         int addedCells = 0;
 
-        int roomWidth = Math.round(app.random(minSize, maxSize));
-        int roomHeight = Math.round(app.random(minSize, maxSize));
+        int roomWidth = Math.round(ThreadLocalRandom.current().nextInt(minSize, maxSize));
+        int roomHeight = Math.round(ThreadLocalRandom.current().nextInt(minSize, maxSize));
 
 
         int startX = agentX - roomWidth / 2;
@@ -123,6 +144,9 @@ public class Digger implements PCGTool{
         }
 
         return addedCells;
+    }
+    public boolean isFinished(){
+        return currentTraversableCells >= targetTraversableCells;
     }
 
     public boolean[][] getMap() {
