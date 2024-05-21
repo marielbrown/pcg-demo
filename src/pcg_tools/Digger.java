@@ -10,7 +10,7 @@ public class Digger implements PCGTool{
     int mapWidth = 70, mapHeight = 50;
     int percentageTraversable = 20;
     int minimumRoomDimension = 2, maximumRoomDimension = 6;
-    float roomGenerationChanceModifier = -100;
+    float roomGenerationChanceModifier = 2;
     float directionChangeChanceModifier = 1;    //todo: bug if less than 1
 
     // state variables updated in code
@@ -52,14 +52,16 @@ public class Digger implements PCGTool{
         // if on edge, face away
         if (agentX == 0) {
             direction[0] = 1;
+            direction[1] = 0;   // set other direction to 0 to prevent diagonal movement
         } else if (agentX == mapWidth - 1) {
             direction[0] = -1;
-        }
-
-        if (agentY == 0) {
+            direction[1] = 0;
+        } else if (agentY == 0) {
             direction[1] = 1;
+            direction[0] = 0;
         } else if (agentY == mapHeight - 1) {
             direction[1] = -1;
+            direction[0] = 0;
         }
 
         agentX += direction[0];
