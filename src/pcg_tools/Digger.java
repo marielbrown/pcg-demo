@@ -5,7 +5,7 @@ import processing.core.PApplet;
 public class Digger implements PCGTool{
 
     private boolean[][] map; // true if cell is traversable
-    private void generateNewMap(PApplet app, int mapWidth, int mapHeight){
+    public void generateNewMap(PApplet app, int mapWidth, int mapHeight){
         map = new boolean[mapWidth][mapHeight];
 
         int directionChangeChance = 5;
@@ -46,16 +46,16 @@ public class Digger implements PCGTool{
                 direction = selectDirection(app);
                 directionChangeChance = 0;
             } else {
-                directionChangeChance += 5;
+                directionChangeChance += 1;
             }
 
             int roomGenerationValue = (int) app.random(0, 99);
             if (roomGenerationValue < roomChance) {
                 //generate room
                 currentLevelSize += addRoom(app, agentX, agentY, mapWidth - 1, mapHeight - 1);
-                roomChance = 0;
+                roomChance = -10;
             } else {
-                roomChance += 2;
+                roomChance += 1;
             }
         }
     }
@@ -75,7 +75,7 @@ public class Digger implements PCGTool{
     }
 
     private int addRoom(PApplet app, int agentX, int agentY, int totalWidth, int totalHeight){
-        int maxSize = 10;
+        int maxSize = 6;
         int minSize = 2;
         int addedCells = 0;
 
@@ -123,5 +123,9 @@ public class Digger implements PCGTool{
         }
 
         return addedCells;
+    }
+
+    public boolean[][] getMap() {
+        return map;
     }
 }

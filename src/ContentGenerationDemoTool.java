@@ -61,5 +61,11 @@ public class ContentGenerationDemoTool extends PApplet {
                 break;
             }
         }
+        for (Button button: canvas.buttons){
+            if (button.isMouseOver(mouseX, mouseY)){
+                button.onClick();
+                break;
+            }
+        }
     }
 }
