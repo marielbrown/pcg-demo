@@ -10,11 +10,21 @@ public class CanvasButtonHandler implements EventListener {
 
     @Override
     public void actionPerformed(int ID) {
-        switch (ID){
-            case 1:
-                System.out.println("map button clicked!");
+        switch (ID) {
+            case Constants.BUTTON_ID_GENERATE:
+                app.activeTool.resetTool();
+                app.canvas.setMap(app.activeTool.getMap()); //todo: this is upsetting to look at. maybe functions can be changed a bit?
                 app.activeTool.runGeneration();
-                app.canvas.setMap(app.activeTool.getMap()); //todo: temporary solution
+                break;
+            case Constants.BUTTON_ID_PAUSE:
+                //todo: pause
+                break;
+            case Constants.BUTTON_ID_PLAY:
+                //todo: play
+                break;
+            case Constants.BUTTON_ID_STEP:
+                if (app.activeTool.isFinished()) return;
+                app.activeTool.executeStep();
         }
     }
 }

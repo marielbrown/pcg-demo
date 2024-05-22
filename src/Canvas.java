@@ -15,9 +15,15 @@ public class Canvas extends UIElement{
 
         buttonHandler = new CanvasButtonHandler(app);
 
-        buttons = new Button[1]; // todo: temporary placement
-        buttons[0] = new Button(1, position.x, position.y + height + 10, 100, 50, "Run");
-        buttons[0].addEventListener(buttonHandler);
+        buttons = new Button[4]; // todo: temporary placement - move to toolbar class?
+        String[] buttonText = {"Run", "Pause", "Play", "Step"}; //todo: speed controls
+        int buttonWidth = 100;
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new Button(i, position.x + buttonWidth * i, position.y + height + 10, buttonWidth, 50, buttonText[i]);
+            buttons[i].addEventListener(buttonHandler);
+        }
+
+
     }
 
 
@@ -39,7 +45,7 @@ public class Canvas extends UIElement{
         float cellHeight = height / map[0].length;
         float cellWidth = width / map.length;
 
-        for (int x = 0; x < map.length; x++) { // todo: !!!! FLIP!!!
+        for (int x = 0; x < map.length; x++) {
             for (int y = 0; y < map[0].length; y++) {
                 if (map[x][y]){
                     app.fill(20, 100, 10);

@@ -30,6 +30,8 @@ public class ContentGenerationDemoTool extends PApplet {
         canvas = new Canvas(this);
 
         activeTool = new Digger();
+        activeTool.resetTool();
+        canvas.setMap(activeTool.getMap()); //todo: this needs done whenever the tool is changed
     }
 
     @Override

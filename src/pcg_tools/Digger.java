@@ -21,9 +21,6 @@ public class Digger implements PCGTool{
 
     @Override
     public void runGeneration(){
-        resetTool();
-        direction = selectDirection(ThreadLocalRandom.current().nextInt(0, 4));
-
         while (!isFinished()){
             executeStep();
         }
@@ -40,6 +37,8 @@ public class Digger implements PCGTool{
 
         agentX = mapWidth / 2; // start in centre
         agentY = mapHeight / 2;
+
+        direction = selectDirection(ThreadLocalRandom.current().nextInt(0, 4));
     }
 
     public void executeStep(){
