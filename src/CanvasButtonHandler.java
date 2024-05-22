@@ -25,6 +25,10 @@ public class CanvasButtonHandler implements EventListener {
             case Constants.BUTTON_ID_STEP:
                 if (app.activeTool.isFinished()) return;
                 app.activeTool.executeStep();
+                break;
+            case Constants.BUTTON_ID_CLEAR:
+                app.activeTool.resetTool();
+                app.canvas.setMap(app.activeTool.getMap()); // todo: see previous comment
         }
     }
 }

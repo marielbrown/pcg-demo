@@ -15,8 +15,9 @@ public class Canvas extends UIElement{
 
         buttonHandler = new CanvasButtonHandler(app);
 
-        buttons = new Button[4]; // todo: temporary placement - move to toolbar class?
-        String[] buttonText = {"Run", "Pause", "Play", "Step"}; //todo: speed controls
+
+        String[] buttonText = {"Run", "Pause", "Play", "Step", "Clear"}; //todo: speed controls
+        buttons = new Button[buttonText.length]; // todo: temporary placement - move to toolbar class?
         int buttonWidth = 100;
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new Button(i, position.x + buttonWidth * i, position.y + height + 10, buttonWidth, 50, buttonText[i]);
@@ -38,7 +39,7 @@ public class Canvas extends UIElement{
         }
 
 
-        if (map == null){
+        if (map == null){ //todo: is this possible?
             return;
         }
 
