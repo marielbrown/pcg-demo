@@ -1,10 +1,12 @@
 import pcg_tools.Digger;
 import pcg_tools.PCGTool;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class ContentGenerationDemoTool extends PApplet {
 
     Sidebar sidebar;
+    ParameterSidebar parameterSidebar;
     Canvas canvas;
 
     PCGTool activeTool;
@@ -27,6 +29,7 @@ public class ContentGenerationDemoTool extends PApplet {
     public void setup(){
         // runs once after the processing sketch has been set up
         sidebar = new Sidebar(this);
+        parameterSidebar = new ParameterSidebar(this);
         canvas = new Canvas(this);
 
         activeTool = new Digger();
@@ -52,6 +55,7 @@ public class ContentGenerationDemoTool extends PApplet {
     private void render(){
         background(50, 50, 50);
         sidebar.render(this);
+        parameterSidebar.render(this);
         canvas.render(this);
     }
 
@@ -59,6 +63,12 @@ public class ContentGenerationDemoTool extends PApplet {
     public void mouseClicked() {
         for (Button button: sidebar.buttons){
            if (button.isMouseOver(mouseX, mouseY)){
+                button.onClick();
+                break;
+            }
+        }
+        for (Button button: parameterSidebar.buttons){
+            if (button.isMouseOver(mouseX, mouseY)){
                 button.onClick();
                 break;
             }

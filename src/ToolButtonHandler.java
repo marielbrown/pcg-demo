@@ -16,6 +16,9 @@ public class ToolButtonHandler implements EventListener {
             case 9:
                 app.sidebar.openClose();
                 break;
+            case 10: // todo: move to different handler?
+                app.parameterSidebar.openClose();
+                break;
         }
     }
 }
