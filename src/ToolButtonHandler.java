@@ -12,6 +12,10 @@ public class ToolButtonHandler implements EventListener {
         switch (ID){
             case 0: //todo: change this to a constant
                 app.setActiveTool(new Digger());
+                break;
+            case 9:
+                app.sidebar.openClose();
+                break;
         }
     }
 }
