@@ -11,13 +11,13 @@ public class Digger implements PCGTool{
     int percentageTraversable = 20;
     int minimumRoomDimension = 2, maximumRoomDimension = 6;
     float roomGenerationChanceModifier = 2;
-    float directionChangeChanceModifier = 1;    //todo: bug if less than 1
+    float directionChangeChanceModifier = 0.5f;
 
     // state variables updated in code
     private int[] direction;
     private int agentX, agentY;
     private int targetTraversableCells, currentTraversableCells;
-    private int directionChangeChance, roomGenerationChance;
+    private float directionChangeChance, roomGenerationChance;
 
     @Override
     public void runGeneration(){
