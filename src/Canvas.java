@@ -1,4 +1,5 @@
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class Canvas extends UIElement{
 
@@ -60,5 +61,18 @@ public class Canvas extends UIElement{
 
     public void setMap(boolean[][] map) {
         this.map = map;
+    }
+
+    /**
+     * Reposition the canvas and relevant elements
+     * @param newPosition PVector of canvas top left corner
+     */
+    public void reposition(PVector newPosition){
+        PVector difference = PVector.sub(newPosition, position);
+        position = newPosition;
+
+        for (Button button : buttons) {
+            button.position = button.position.add(difference);
+        }
     }
 }
