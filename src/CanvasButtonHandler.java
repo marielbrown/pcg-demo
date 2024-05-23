@@ -12,7 +12,9 @@ public class CanvasButtonHandler implements EventListener {
     public void actionPerformed(int ID) {
         switch (ID) {
             case Constants.BUTTON_ID_GENERATE:
-                app.activeTool.resetTool();
+                if (app.activeTool.isFinished()) {
+                    app.activeTool.resetTool();
+                }
                 app.canvas.setMap(app.activeTool.getMap()); //todo: this is upsetting to look at. maybe functions can be changed a bit?
                 app.activeTool.runGeneration();
                 break;
