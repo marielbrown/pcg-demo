@@ -30,6 +30,8 @@ public class ContentGenerationDemoTool extends PApplet {
         canvas = new Canvas(this);
 
         activeTool = new Digger();
+        activeTool.resetTool();
+        canvas.setMap(activeTool.getMap()); //todo: this needs done whenever the tool is changed
     }
 
     @Override
@@ -57,6 +59,12 @@ public class ContentGenerationDemoTool extends PApplet {
     public void mouseClicked() {
         for (Button button: sidebar.buttons){
            if (button.isMouseOver(mouseX, mouseY)){
+                button.onClick();
+                break;
+            }
+        }
+        for (Button button: canvas.buttons){
+            if (button.isMouseOver(mouseX, mouseY)){
                 button.onClick();
                 break;
             }
