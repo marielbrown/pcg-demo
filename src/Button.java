@@ -6,6 +6,9 @@ public class Button extends UIElement{
 
     EventListener buttonHandler; // for now, just one listener per button
 
+    Button(int ID, float xPosition, float yPosition, float width, float height){
+        this(ID, xPosition, yPosition,  width,  height, "");
+    }
     Button(int ID, float xPosition, float yPosition, float width, float height, String text){
         this.ID = ID;
         this.text = text;

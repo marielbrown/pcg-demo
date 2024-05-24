@@ -17,7 +17,7 @@ public class Sidebar extends UIElement{
         buttons = new Button[2];
         buttons[0] = new Button(0, position.x + 40, position.y + 45, 200, 40, "PCG Method 1");
 
-        buttons[1] = new Button(9, position.x + width, position.y, 25, height, ""); //todo: in progress, close button
+        buttons[1] = new Button(9, position.x + width, position.y, 25, height); //todo: in progress, close button
 
         buttonHandler = new ToolButtonHandler(app);
 
