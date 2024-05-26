@@ -9,8 +9,8 @@ public class CanvasButtonHandler implements EventListener {
     }
 
     @Override
-    public void actionPerformed(int ID) {
-        switch (ID) {
+    public void actionPerformed(int actionID, Object source) {
+        switch (actionID) {
             case Constants.BUTTON_ID_GENERATE:
                 if (app.activeTool.isFinished()) {
                     app.activeTool.resetTool();

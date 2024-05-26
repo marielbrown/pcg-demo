@@ -14,6 +14,7 @@ public class Canvas extends UIElement{
 
 
     Canvas(ContentGenerationDemoTool app){
+        super(app);
         position.x = app.width * 0.2f - 15;
         position.y = 0;
         width = app.width - (position.x * 2);
@@ -31,7 +32,7 @@ public class Canvas extends UIElement{
         buttons = new Button[buttonText.length]; // todo: temporary placement - move to toolbar class?
         int buttonWidth = 100;
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i] = new Button(i, mapPosition.x + buttonWidth * i, mapPosition.y + mapHeight + 10, buttonWidth, 50, buttonText[i]);
+            buttons[i] = new Button(this, i, mapPosition.x + buttonWidth * i, mapPosition.y + mapHeight + 10, buttonWidth, 50, buttonText[i]);
             buttons[i].addEventListener(buttonHandler);
         }
 

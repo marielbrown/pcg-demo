@@ -1,7 +1,6 @@
 import pcg_tools.Digger;
 import pcg_tools.PCGTool;
 import processing.core.PApplet;
-import processing.core.PVector;
 
 public class ContentGenerationDemoTool extends PApplet {
 
@@ -35,6 +34,10 @@ public class ContentGenerationDemoTool extends PApplet {
         activeTool = new Digger();
         activeTool.resetTool();
         canvas.setMap(activeTool.getMap()); //todo: this needs done whenever the tool is changed
+
+        PopUpDialog.makeDialog(this);
+        PopUpDialog.makeDialog(this);
+        PopUpDialog.makeDialog(this);
     }
 
     @Override
@@ -57,6 +60,8 @@ public class ContentGenerationDemoTool extends PApplet {
         sidebar.render(this);
         parameterSidebar.render(this);
         canvas.render(this);
+
+        PopUpDialog.renderAll(this);
     }
 
     @Override
@@ -74,6 +79,15 @@ public class ContentGenerationDemoTool extends PApplet {
             }
         }
         for (Button button: canvas.buttons){
+            if (button.isMouseOver(mouseX, mouseY)){
+                button.onClick();
+                break;
+            }
+        }
+
+        //todo: temp
+        for (PopUpDialog dialog: PopUpDialog.dialogs){
+            Button button = dialog.closeButton;
             if (button.isMouseOver(mouseX, mouseY)){
                 button.onClick();
                 break;

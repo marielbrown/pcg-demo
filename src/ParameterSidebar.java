@@ -7,6 +7,7 @@ public class ParameterSidebar extends UIElement{
 
         private boolean closed;
         ParameterSidebar(ContentGenerationDemoTool app) {
+            super(app);
             width = app.width * 0.2f - 35;   // 1/5 size of screen
             height = app.height;
             position.x = app.width - width; // right-hand side of screen
@@ -15,7 +16,7 @@ public class ParameterSidebar extends UIElement{
 
             buttons = new Button[1];
 
-            buttons[0] = new Button(10, position.x - 25, position.y, 25, height, ""); //todo: in progress, close button
+            buttons[0] = new Button(this, 10, position.x - 25, position.y, 25, height, ""); //todo: in progress, close button
 
             buttonHandler = new ToolButtonHandler(app);
 
