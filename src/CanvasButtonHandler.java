@@ -15,7 +15,7 @@ public class CanvasButtonHandler implements EventListener {
                 if (app.activeTool.isFinished()) {
                     app.activeTool.resetTool();
                 }
-                app.canvas.setMap(app.activeTool.getMap()); //todo: this is upsetting to look at. maybe functions can be changed a bit?
+                app.frame.canvas.setMap(app.activeTool.getMap()); //todo: this is upsetting to look at. maybe functions can be changed a bit?
                 app.activeTool.runGeneration();
                 break;
             case Constants.BUTTON_ID_PAUSE:
@@ -30,7 +30,7 @@ public class CanvasButtonHandler implements EventListener {
                 break;
             case Constants.BUTTON_ID_CLEAR:
                 app.activeTool.resetTool();
-                app.canvas.setMap(app.activeTool.getMap()); // todo: see previous comment
+                app.frame.canvas.setMap(app.activeTool.getMap()); // todo: see previous comment
         }
     }
 }

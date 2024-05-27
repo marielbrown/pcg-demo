@@ -3,10 +3,7 @@ import pcg_tools.PCGTool;
 import processing.core.PApplet;
 
 public class ContentGenerationDemoTool extends PApplet {
-
-    Sidebar sidebar;
-    ParameterSidebar parameterSidebar;
-    Canvas canvas;
+    Frame frame;
 
     PCGTool activeTool;
 
@@ -27,13 +24,11 @@ public class ContentGenerationDemoTool extends PApplet {
     @Override
     public void setup(){
         // runs once after the processing sketch has been set up
-        sidebar = new Sidebar(this);
-        parameterSidebar = new ParameterSidebar(this);
-        canvas = new Canvas(this);
-
+        frame = new Frame(this);
         activeTool = new Digger();
         activeTool.resetTool();
-        canvas.setMap(activeTool.getMap()); //todo: this needs done whenever the tool is changed
+
+        frame.canvas.setMap(activeTool.getMap()); //todo: this needs done whenever the tool is changed
 
         PopUpDialog.makeDialog(this);
         PopUpDialog.makeDialog(this);
@@ -57,41 +52,15 @@ public class ContentGenerationDemoTool extends PApplet {
 
     private void render(){
         background(50, 50, 50);
-        sidebar.render(this);
-        parameterSidebar.render(this);
-        canvas.render(this);
+        frame.render(this);
 
         PopUpDialog.renderAll(this);
     }
 
     @Override
     public void mouseClicked() {
-        for (Button button: sidebar.buttons){
-           if (button.isMouseOver(mouseX, mouseY)){
-                button.onClick();
-                break;
-            }
-        }
-        for (Button button: parameterSidebar.buttons){
-            if (button.isMouseOver(mouseX, mouseY)){
-                button.onClick();
-                break;
-            }
-        }
-        for (Button button: canvas.buttons){
-            if (button.isMouseOver(mouseX, mouseY)){
-                button.onClick();
-                break;
-            }
-        }
+        frame.registerClick(mouseX, mouseY);
 
-        //todo: temp
-        for (PopUpDialog dialog: PopUpDialog.dialogs){
-            Button button = dialog.closeButton;
-            if (button.isMouseOver(mouseX, mouseY)){
-                button.onClick();
-                break;
-            }
-        }
+        PopUpDialog.registerClick(mouseX, mouseY);
     }
 }

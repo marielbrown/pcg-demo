@@ -14,8 +14,8 @@ public class PopUpDialog extends UIElement{
     static ArrayList<PopUpDialog> dialogs = new ArrayList<>();
     static EventListener dialogHandler;
 
-    PopUpDialog(PApplet app){
-        super(app);
+    PopUpDialog(ContentGenerationDemoTool app){
+        super(app.frame);
         if (dialogHandler == null){
             dialogHandler = new DialogHandler();
         }
@@ -43,7 +43,7 @@ public class PopUpDialog extends UIElement{
         }
     }
 
-    public static void makeDialog(PApplet app){
+    public static void makeDialog(ContentGenerationDemoTool app){
         dialogs.add(new PopUpDialog(app));
         currentDepth += 1;
     }
@@ -62,6 +62,16 @@ public class PopUpDialog extends UIElement{
 
         topBar.render(app);
         closeButton.render(app);
+    }
+
+    public static void registerClick(int mouseX, int mouseY){
+        for (PopUpDialog dialog: PopUpDialog.dialogs){
+            Button button = dialog.closeButton;
+            if (button.isMouseOver(mouseX, mouseY)){
+                button.onClick();
+                break;
+            }
+        }
     }
 
     private static class DialogHandler implements EventListener {

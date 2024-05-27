@@ -7,10 +7,10 @@ public class Button extends UIElement{
 
     EventListener buttonHandler; // for now, just one listener per button
 
-    Button(Object parent, int ID, float xPosition, float yPosition, float width, float height){
+    Button(UIElement parent, int ID, float xPosition, float yPosition, float width, float height){
         this(parent, ID, xPosition, yPosition,  width,  height, "");
     }
-    Button(Object parent, int ID, float xPosition, float yPosition, float width, float height, String text){
+    Button(UIElement parent, int ID, float xPosition, float yPosition, float width, float height, String text){
         super(parent);
         this.ID = ID;
         this.text = text;

@@ -7,7 +7,7 @@ public class ParameterSidebar extends UIElement{
 
         private boolean closed;
         ParameterSidebar(ContentGenerationDemoTool app) {
-            super(app);
+            super(app.frame);
             width = app.width * 0.2f - 35;   // 1/5 size of screen
             height = app.height;
             position.x = app.width - width; // right-hand side of screen

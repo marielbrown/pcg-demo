@@ -14,7 +14,7 @@ public class Canvas extends UIElement{
 
 
     Canvas(ContentGenerationDemoTool app){
-        super(app);
+        super(app.frame);
         position.x = app.width * 0.2f - 15;
         position.y = 0;
         width = app.width - (position.x * 2);

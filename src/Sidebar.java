@@ -8,7 +8,7 @@ public class Sidebar extends UIElement{
     private boolean closed;
 
     Sidebar(ContentGenerationDemoTool app) {
-        super(app);
+        super(app.frame);
         width = app.width * 0.2f - 35;   // 1/5 size of screen
         height = app.height;
         position.x = 0;

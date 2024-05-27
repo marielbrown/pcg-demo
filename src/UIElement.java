@@ -1,15 +1,14 @@
 import processing.core.PApplet;
 import processing.core.PVector;
 
-
 public abstract class UIElement {
     protected PVector position = new PVector();
     protected float width, height;
     protected int defaultColour = -8882056; // obtained from processing color function
 
-    protected Object parent; //todo: less general? UIElment?
+    protected UIElement parent;
 
-    UIElement(Object parent){
+    UIElement(UIElement parent){
         this.parent = parent;
     }
 
@@ -18,7 +17,7 @@ public abstract class UIElement {
                 mouseY > position.y && mouseY < position.y + height;
     }
 
-    public Object getParent() {
+    public UIElement getParent() {
         return parent;
     }
 

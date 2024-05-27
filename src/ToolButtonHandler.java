@@ -14,10 +14,10 @@ public class ToolButtonHandler implements EventListener {
                 app.setActiveTool(new Digger());
                 break;
             case 9:
-                app.sidebar.openClose();
+                app.frame.sidebar.openClose();
                 break;
             case 10: // todo: move to different handler?
-                app.parameterSidebar.openClose();
+                app.frame.parameterSidebar.openClose();
                 break;
         }
     }
