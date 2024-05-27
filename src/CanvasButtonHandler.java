@@ -19,10 +19,10 @@ public class CanvasButtonHandler implements EventListener {
                 app.activeTool.runGeneration();
                 break;
             case Constants.BUTTON_ID_PAUSE:
-                //todo: pause
+                app.isRunning = false;
                 break;
             case Constants.BUTTON_ID_PLAY:
-                //todo: play
+                app.isRunning = true;
                 break;
             case Constants.BUTTON_ID_STEP:
                 if (app.activeTool.isFinished()) return;

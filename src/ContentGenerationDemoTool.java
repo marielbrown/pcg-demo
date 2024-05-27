@@ -6,7 +6,7 @@ public class ContentGenerationDemoTool extends PApplet {
     Frame frame;
 
     PCGTool activeTool;
-    boolean isRunning = true;
+    boolean isRunning;
     float delay = 0.4f; //todo: set this
     int frameCounter;
 
