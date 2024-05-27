@@ -6,6 +6,9 @@ public class ContentGenerationDemoTool extends PApplet {
     Frame frame;
 
     PCGTool activeTool;
+    boolean isRunning = true;
+    float delay = 0.4f; //todo: set this
+    int frameCounter;
 
     public static void main(String[] args){
         String[] processingArgs = {"Level Designer"};
@@ -29,10 +32,6 @@ public class ContentGenerationDemoTool extends PApplet {
         activeTool.resetTool();
 
         frame.canvas.setMap(activeTool.getMap()); //todo: this needs done whenever the tool is changed
-
-        PopUpDialog.makeDialog(this);
-        PopUpDialog.makeDialog(this);
-        PopUpDialog.makeDialog(this);
     }
 
     @Override
@@ -47,7 +46,19 @@ public class ContentGenerationDemoTool extends PApplet {
     }
 
     private void update(){
-        //stub
+        if (isRunning){
+            if (activeTool.isFinished()) {
+                isRunning = false;
+                return;
+            }
+
+            frameCounter++;
+
+            if (frameCounter > delay * frameRate){
+                activeTool.executeStep();
+                frameCounter = 0;
+            }
+        }
     }
 
     private void render(){
