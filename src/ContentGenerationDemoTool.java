@@ -8,6 +8,9 @@ public class ContentGenerationDemoTool extends PApplet {
     PCGTool activeTool;
     boolean isRunning;
     float delay = 0.4f; //todo: set this
+    float speedIncrement = 0.1f;
+    float minDelay = 0.1f;
+    float maxDelay = 1f;
     int frameCounter;
 
     public static void main(String[] args){
