@@ -43,6 +43,7 @@ public class LookAheadDigger implements PCGTool{
 
     public void executeStep(){
         if (!roomPlacementIsPossible()){
+            //todo: may wish to change direction
             placeCorridor();
         } else {
             if (roomPlacementIsSelected()) {
@@ -62,12 +63,14 @@ public class LookAheadDigger implements PCGTool{
     }
 
     private boolean roomPlacementIsPossible(){
-        //stub
+        // determine min and max co-ordinates
+        // co-ordinates include a 1 cell buffer
+        // call is area available
         return false;
     }
 
     private void placeCorridor(){
-        //stub
+        // stub
         // move agent
         // digOutCell
     }
@@ -130,6 +133,15 @@ public class LookAheadDigger implements PCGTool{
             map[x][y] = true;
             currentTraversableCells++;
         }
+    }
+
+    private boolean isAreaAvailable(int xMin, int yMin, int xMax, int yMax){
+        for (int x = xMin; x < xMax; x++) {
+            for (int y = yMin; y < yMax; y++) {
+                if (map[x][y]) return false;
+            }
+        }
+        return true;
     }
 
     @Override
