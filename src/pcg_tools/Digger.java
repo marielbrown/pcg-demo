@@ -142,4 +142,9 @@ public class Digger implements PCGTool{
     public boolean[][] getMap() {
         return map;
     }
+
+    public int[] getAgentPosition() {
+        return new int[] {agentX, agentY};
+    }
+
 }

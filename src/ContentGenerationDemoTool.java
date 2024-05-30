@@ -1,4 +1,5 @@
 import pcg_tools.Digger;
+import pcg_tools.LookAheadDigger;
 import pcg_tools.PCGTool;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -32,7 +33,7 @@ public class ContentGenerationDemoTool extends PApplet {
         parameterSidebar = new ParameterSidebar(this);
         canvas = new Canvas(this);
 
-        activeTool = new Digger();
+        activeTool = new LookAheadDigger();
         activeTool.resetTool();
         canvas.setMap(activeTool.getMap()); //todo: this needs done whenever the tool is changed
     }
@@ -57,6 +58,10 @@ public class ContentGenerationDemoTool extends PApplet {
         sidebar.render(this);
         parameterSidebar.render(this);
         canvas.render(this);
+
+        int[] agentCoords = activeTool.getAgentPosition();  //todo: temporary visual
+        fill(10, 10, 200);
+        circle(agentCoords[0] * 12 + canvas.mapPosition.x, agentCoords[1] * 13 + canvas.mapPosition.y, 10);
     }
 
     @Override

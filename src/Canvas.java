@@ -66,9 +66,6 @@ public class Canvas extends UIElement{
                 app.rect(x * cellWidth + mapPosition.x, y * cellHeight + mapPosition.y, cellWidth, cellHeight);
             }
         }
-
-        //app.fill(50, 80, 120);    // for testing
-        //app.rect(position.x, position.y, width, height);
     }
 
     public void setMap(boolean[][] map) {

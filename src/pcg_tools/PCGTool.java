@@ -23,4 +23,6 @@ public interface PCGTool {
      * @return true if generation is complete
      */
     boolean isFinished();
+
+    int[] getAgentPosition();
 }
