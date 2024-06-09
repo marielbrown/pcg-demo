@@ -25,4 +25,6 @@ public interface PCGTool {
     boolean isFinished();
 
     int[] getAgentPosition();
+
+    int[] getAgentAreaCoordinates();
 }

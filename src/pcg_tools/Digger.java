@@ -147,4 +147,6 @@ public class Digger implements PCGTool{
         return new int[] {agentX, agentY};
     }
 
+    public int[] getAgentAreaCoordinates() { return null; } // no area used by this tool
+
 }
