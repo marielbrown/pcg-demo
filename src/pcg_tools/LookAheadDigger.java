@@ -120,7 +120,7 @@ public class LookAheadDigger implements PCGTool {
             agent.areaMaxY = agent.y + height;
         } else {
             agent.areaMinY= agent.y - height / 2;
-            agent.areaMaxX = agent.y + height / 2;
+            agent.areaMaxY = agent.y + height / 2;
         }
     }
 
@@ -130,14 +130,14 @@ public class LookAheadDigger implements PCGTool {
         if (agent.areaMinX < 0 || agent.areaMinY < 0 || agent.areaMaxX >= mapWidth || agent.areaMaxY >= mapHeight) return false;
 
         if (direction[0] == 0){ // y axis movement
-            for (int y =  agent.areaMinY ; y < agent.areaMaxY; y++) {
+            for (int y =  agent.areaMinY ; y <= agent.areaMaxY; y++) {
                 boolean fill = map[agent.areaMinX][y];
                 for (int x = agent.areaMinX; x < agent.areaMaxX; x++) {
                     if (map[x][y] != fill) return false;
                 }
             }
         } else { // x axis movement
-            for (int x = agent.areaMinX; x < agent.areaMaxX; x++) {
+            for (int x = agent.areaMinX; x <= agent.areaMaxX; x++) {
                 boolean fill = map[x][ agent.areaMinY];
                 for (int y =  agent.areaMinY ; y < agent.areaMaxY; y++) {
                     if (map[x][y] != fill) return false;
@@ -162,20 +162,19 @@ public class LookAheadDigger implements PCGTool {
 
     private void changeDirection(){
         switch (directionsChecked) {
-            case 1:
+            case 1 -> {
                 int directionOption = ThreadLocalRandom.current().nextInt(0, 2);
                 if (direction[0] == 0) { // if moving along y axis
                     direction = selectDirection(directionOption);
                 } else { // if moving along x axis
                     direction = selectDirection(directionOption + 2);
                 }
-                break;
-            case 2:
-                direction[0] = - direction[0];
-                direction[1] = - direction[1];
-                break;
-            case 3:
-                finished = true; // dead end reached
+            }
+            case 2 -> {
+                direction[0] = -direction[0];
+                direction[1] = -direction[1];
+            }
+            case 3 -> finished = true; // dead end reached
         }
     }
 
@@ -241,8 +240,8 @@ public class LookAheadDigger implements PCGTool {
 
     private boolean canPlaceRoom(){
         //todo: only draws room if max room size is possible
-        for (int x = agent.areaMinX; x < agent.areaMaxX; x++) {
-            for (int y = agent.areaMinY; y < agent.areaMaxY; y++) {
+        for (int x = agent.areaMinX; x <= agent.areaMaxX; x++) {
+            for (int y = agent.areaMinY; y <= agent.areaMaxY; y++) {
                 if (map[x][y]) return false;
             }
         }
@@ -275,6 +274,9 @@ public class LookAheadDigger implements PCGTool {
     }
 
     public int[] getAgentAreaCoordinates() {
+        if (lookStep) {
+            return null;
+        }
         return new int[]{agent.areaMinX, agent.areaMinY, agent.areaMaxX, agent.areaMaxY};
     }
 
