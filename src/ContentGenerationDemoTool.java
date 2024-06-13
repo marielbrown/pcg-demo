@@ -1,4 +1,5 @@
 import pcg_tools.Digger;
+import pcg_tools.LookAheadDigger;
 import pcg_tools.PCGTool;
 import processing.core.PApplet;
 
@@ -69,6 +70,20 @@ public class ContentGenerationDemoTool extends PApplet {
         frame.render(this);
 
         PopUpDialog.renderAll(this);
+
+        int[] agentCoords = activeTool.getAgentPosition();  //todo: temporary visual
+        fill(10, 10, 200);
+
+        circle(agentCoords[0] * frame.canvas.cellWidth + canvas.mapPosition.x + frame.canvas.cellWidth / 2, agentCoords[1] * frame.canvas.cellHeight + canvas.mapPosition.y + frame.canvas.cellHeight / 2, 10);
+        int[] areaCoords = activeTool.getAgentAreaCoordinates();
+
+        if (areaCoords != null) {
+            System.out.println("" + areaCoords[0] + ", " + areaCoords[1] + ", " + areaCoords[2] + ", " + areaCoords[3]);
+            strokeWeight(3);
+            fill(0, 0);
+            rect(areaCoords[0] * frame.canvas.cellWidth + frame.canvas.mapPosition.x, areaCoords[1] * frame.canvas.cellHeight + frame.canvas.mapPosition.y, (areaCoords[2] - areaCoords[0] + 1) * frame.canvas.cellWidth, (areaCoords[3] - areaCoords[1] + 1) * frame.canvas.cellHeight);
+            strokeWeight(1);
+        }
     }
 
     @Override

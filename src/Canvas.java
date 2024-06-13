@@ -11,7 +11,8 @@ public class Canvas extends UIElement{
     PVector mapPosition = new PVector();
     float mapWidth, mapHeight;
 
-
+    float cellHeight;
+    float cellWidth;
 
     Canvas(ContentGenerationDemoTool app){
         super(app.frame);
@@ -54,8 +55,8 @@ public class Canvas extends UIElement{
             return;
         }
 
-        float cellHeight = mapHeight / map[0].length;
-        float cellWidth = mapWidth / map.length;
+        cellHeight = mapHeight / map[0].length; //todo: dont calculate this every frame
+        cellWidth = mapWidth / map.length;
 
         for (int x = 0; x < map.length; x++) {
             for (int y = 0; y < map[0].length; y++) {
@@ -67,9 +68,6 @@ public class Canvas extends UIElement{
                 app.rect(x * cellWidth + mapPosition.x, y * cellHeight + mapPosition.y, cellWidth, cellHeight);
             }
         }
-
-        //app.fill(50, 80, 120);    // for testing
-        //app.rect(position.x, position.y, width, height);
     }
 
     public void setMap(boolean[][] map) {
