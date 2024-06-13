@@ -4,9 +4,14 @@ public class Button extends UIElement{
     final int ID;
     String text;
 
+
     EventListener buttonHandler; // for now, just one listener per button
 
-    Button(int ID, float xPosition, float yPosition, float width, float height, String text){
+    Button(UIElement parent, int ID, float xPosition, float yPosition, float width, float height){
+        this(parent, ID, xPosition, yPosition,  width,  height, "");
+    }
+    Button(UIElement parent, int ID, float xPosition, float yPosition, float width, float height, String text){
+        super(parent);
         this.ID = ID;
         this.text = text;
 
@@ -32,6 +37,6 @@ public class Button extends UIElement{
     }
 
     public void onClick(){
-        buttonHandler.actionPerformed(ID);
+        buttonHandler.actionPerformed(ID, this);
     }
 }

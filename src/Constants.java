@@ -4,4 +4,7 @@ public class Constants {
     public static final int BUTTON_ID_PLAY = 2;
     public static final int BUTTON_ID_STEP = 3;
     public static final int BUTTON_ID_CLEAR = 4;
+    public static final int BUTTON_ID_SPEED_UP = 5;
+    public static final int BUTTON_ID_SPEED_DOWN = 6;
+    public static final int BUTTON_ID_CLOSE = 7;
 }

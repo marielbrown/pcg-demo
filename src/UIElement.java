@@ -4,10 +4,21 @@ import processing.core.PVector;
 public abstract class UIElement {
     protected PVector position = new PVector();
     protected float width, height;
+    protected int defaultColour = -8882056; // obtained from processing color function
+
+    protected UIElement parent;
+
+    UIElement(UIElement parent){
+        this.parent = parent;
+    }
 
     boolean isMouseOver(int mouseX, int mouseY){
         return mouseX > position.x && mouseX < position.x + width &&
                 mouseY > position.y && mouseY < position.y + height;
+    }
+
+    public UIElement getParent() {
+        return parent;
     }
 
     public abstract void render(PApplet app);

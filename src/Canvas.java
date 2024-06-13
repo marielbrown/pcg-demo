@@ -14,6 +14,7 @@ public class Canvas extends UIElement{
 
 
     Canvas(ContentGenerationDemoTool app){
+        super(app.frame);
         position.x = app.width * 0.2f - 15;
         position.y = 0;
         width = app.width - (position.x * 2);
@@ -27,11 +28,11 @@ public class Canvas extends UIElement{
         buttonHandler = new CanvasButtonHandler(app);
 
 
-        String[] buttonText = {"Run", "Pause", "Play", "Step", "Clear"}; //todo: speed controls
+        String[] buttonText = {"Run", "Pause", "Play", "Step", "Clear", "speed +", "speed -"}; //todo: speed controls
         buttons = new Button[buttonText.length]; // todo: temporary placement - move to toolbar class?
-        int buttonWidth = 100;
+        int buttonWidth = 120;
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i] = new Button(i, mapPosition.x + buttonWidth * i, mapPosition.y + mapHeight + 10, buttonWidth, 50, buttonText[i]);
+            buttons[i] = new Button(this, i, mapPosition.x + buttonWidth * i, mapPosition.y + mapHeight + 10, buttonWidth, 50, buttonText[i]);
             buttons[i].addEventListener(buttonHandler);
         }
 

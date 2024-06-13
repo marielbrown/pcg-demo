@@ -7,17 +7,17 @@ public class ToolButtonHandler implements EventListener {
         this.app = app;
     }
     @Override
-    public void actionPerformed(int ID) {
+    public void actionPerformed(int actionID, Object source) {
         System.out.println("click!!");
-        switch (ID){
+        switch (actionID){
             case 0: //todo: change this to a constant
                 app.setActiveTool(new Digger());
                 break;
             case 9:
-                app.sidebar.openClose();
+                app.frame.sidebar.openClose();
                 break;
             case 10: // todo: move to different handler?
-                app.parameterSidebar.openClose();
+                app.frame.parameterSidebar.openClose();
                 break;
         }
     }
