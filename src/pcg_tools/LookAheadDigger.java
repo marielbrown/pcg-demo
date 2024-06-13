@@ -239,6 +239,9 @@ public class LookAheadDigger implements PCGTool {
     }
 
     private boolean canPlaceRoom(){
+        // todo: temporary oob checking
+        if (agent.areaMinX < 0 || agent.areaMinY < 0 || agent.areaMaxX >= mapWidth || agent.areaMaxY >= mapHeight) return false;
+
         //todo: only draws room if max room size is possible
         for (int x = agent.areaMinX; x <= agent.areaMaxX; x++) {
             for (int y = agent.areaMinY; y <= agent.areaMaxY; y++) {

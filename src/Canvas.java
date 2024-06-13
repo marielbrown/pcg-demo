@@ -11,7 +11,8 @@ public class Canvas extends UIElement{
     PVector mapPosition = new PVector();
     float mapWidth, mapHeight;
 
-
+    float cellHeight;
+    float cellWidth;
 
     Canvas(ContentGenerationDemoTool app){
         position.x = app.width * 0.2f - 15;
@@ -53,8 +54,8 @@ public class Canvas extends UIElement{
             return;
         }
 
-        float cellHeight = mapHeight / map[0].length;
-        float cellWidth = mapWidth / map.length;
+        cellHeight = mapHeight / map[0].length; //todo: dont calculate this every frame
+        cellWidth = mapWidth / map.length;
 
         for (int x = 0; x < map.length; x++) {
             for (int y = 0; y < map[0].length; y++) {
