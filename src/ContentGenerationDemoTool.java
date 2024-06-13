@@ -74,7 +74,7 @@ public class ContentGenerationDemoTool extends PApplet {
         int[] agentCoords = activeTool.getAgentPosition();  //todo: temporary visual
         fill(10, 10, 200);
 
-        circle(agentCoords[0] * frame.canvas.cellWidth + canvas.mapPosition.x + frame.canvas.cellWidth / 2, agentCoords[1] * frame.canvas.cellHeight + canvas.mapPosition.y + frame.canvas.cellHeight / 2, 10);
+        circle(agentCoords[0] * frame.canvas.cellWidth + frame.canvas.mapPosition.x + frame.canvas.cellWidth / 2, agentCoords[1] * frame.canvas.cellHeight + frame.canvas.mapPosition.y + frame.canvas.cellHeight / 2, 10);
         int[] areaCoords = activeTool.getAgentAreaCoordinates();
 
         if (areaCoords != null) {
