@@ -277,9 +277,6 @@ public class LookAheadDigger implements PCGTool {
     }
 
     public int[] getAgentAreaCoordinates() {
-        if (lookStep) {
-            return null;
-        }
         return new int[]{agent.areaMinX, agent.areaMinY, agent.areaMaxX, agent.areaMaxY};
     }
 
