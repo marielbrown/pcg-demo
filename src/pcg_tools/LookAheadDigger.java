@@ -125,26 +125,66 @@ public class LookAheadDigger implements PCGTool {
     }
 
     private boolean canPlaceCorridor(){
-        //todo: update and replace
         // check for out of bounds
         if (agent.areaMinX < 0 || agent.areaMinY < 0 || agent.areaMaxX >= mapWidth || agent.areaMaxY >= mapHeight) return false;
+        //todo: if out of bounds, update look ahead to show this
 
-        if (direction[0] == 0){ // y axis movement
-            for (int y =  agent.areaMinY ; y <= agent.areaMaxY; y++) {
-                boolean fill = map[agent.areaMinX][y];
-                for (int x = agent.areaMinX; x < agent.areaMaxX; x++) {
-                    if (map[x][y] != fill) return false;
-                }
-            }
-        } else { // x axis movement
-            for (int x = agent.areaMinX; x <= agent.areaMaxX; x++) {
-                boolean fill = map[x][ agent.areaMinY];
-                for (int y =  agent.areaMinY ; y < agent.areaMaxY; y++) {
-                    if (map[x][y] != fill) return false;
-                }
+        boolean[][] lookaheadMap;
+
+        //if horizontal movement, transpose
+        if (direction[0] == 0) {
+            lookaheadMap = createLookAheadMap();
+        } else {
+            lookaheadMap = createTransposedLookAheadMap();
+        }
+
+        // check all rows are internally consistent
+        for (int y = 0 ; y < 3; y++) {
+            boolean fill = lookaheadMap[0][y];
+            for (int x = 0; x < 3; x++) {
+                if (lookaheadMap[x][y] != fill) return false;
             }
         }
+
+        boolean rowFar = lookaheadMap[0][0];
+        boolean rowMid = lookaheadMap[0][1];
+        boolean rowNear = lookaheadMap[0][2];
+
+        //if left or down swap near and far
+        if (direction[0] == 1 || direction[1] == 1){
+            boolean swap = rowFar;
+            rowFar = rowNear;
+            rowNear = swap;
+        }
+
+        // check remaining cases
+        if (!rowNear && (rowFar || rowMid)) return false;
+        if (!rowMid && rowFar) return false;
+
         return true;
+    }
+
+    private boolean[][] createLookAheadMap(){
+        boolean[][] lookAheadMap = new boolean[agent.areaMaxX - agent.areaMinX + 1][agent.areaMaxY - agent.areaMinY + 1];
+
+        for (int y =  agent.areaMinY ; y <= agent.areaMaxY; y++) {
+            for (int x = agent.areaMinX; x <= agent.areaMaxX; x++) {
+                lookAheadMap[x - agent.areaMinX][y - agent.areaMinY] = map[x][y];
+            }
+        }
+
+        return lookAheadMap;
+    }
+    private boolean[][] createTransposedLookAheadMap(){
+        boolean[][] lookAheadMap = new boolean[agent.areaMaxX - agent.areaMinX + 1][agent.areaMaxY - agent.areaMinY + 1];
+
+        for (int y =  agent.areaMinY ; y <= agent.areaMaxY; y++) {
+            for (int x = agent.areaMinX; x <= agent.areaMaxX; x++) {
+                lookAheadMap[y - agent.areaMinY][x - agent.areaMinX] = map[x][y];
+            }
+        }
+
+        return lookAheadMap;
     }
 
     private boolean roomPlacementIsSelected(){
@@ -169,10 +209,12 @@ public class LookAheadDigger implements PCGTool {
                 } else { // if moving along x axis
                     direction = selectDirection(directionOption + 2);
                 }
+                break;
             }
             case 2 -> {
                 direction[0] = -direction[0];
                 direction[1] = -direction[1];
+                break;
             }
             case 3 -> finished = true; // dead end reached
         }
