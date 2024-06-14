@@ -47,6 +47,7 @@ public class LookAheadDigger implements PCGTool {
         agent.y = mapHeight / 2;
 
         direction = selectDirection(ThreadLocalRandom.current().nextInt(0, 4));
+        finished = false;   
     }
 
     public void executeStep(){
