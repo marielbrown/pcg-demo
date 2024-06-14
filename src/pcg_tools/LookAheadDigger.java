@@ -85,6 +85,7 @@ public class LookAheadDigger implements PCGTool {
 
             } else {
                 changeDirection(); // no need to change state as lookahead will be repeated
+                directionsChecked++;
             }
 
 
