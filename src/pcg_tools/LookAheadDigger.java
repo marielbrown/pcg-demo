@@ -47,7 +47,7 @@ public class LookAheadDigger implements PCGTool {
         agent.y = mapHeight / 2;
 
         direction = selectDirection(ThreadLocalRandom.current().nextInt(0, 4));
-        finished = false;   
+        finished = false;
     }
 
     public void executeStep(){
@@ -75,7 +75,21 @@ public class LookAheadDigger implements PCGTool {
                 readyToDrawRoom = false; // try looking for corridor next
             }
 
-        } else {    // corridor lookahead
+        } else {
+
+            // chance to change direction
+            if (directionsChecked == 1) {
+                int directionChangeValue = ThreadLocalRandom.current().nextInt(0, 100);
+                if (directionChangeValue < directionChangeChance) {
+                    //change direction
+                    changeDirection();
+                    directionChangeChance = 0;
+                } else {
+                    directionChangeChance += directionChangeChanceModifier;
+                }
+            }
+
+            // corridor lookahead
             setLookAheadCoordinates(3, 3);  // corridor
             if (canPlaceCorridor()){
                 directionsChecked = 1;  // reset valid direction counter
