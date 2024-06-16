@@ -9,7 +9,7 @@ public class LookAheadDigger implements PCGTool {
     // parameters adjustable by user
     int mapWidth = 70, mapHeight = 50;
     int percentageTraversable = 20;
-    int minimumRoomDimension = 2, maximumRoomDimension = 6;
+    int minimumRoomDimension = 3, maximumRoomDimension = 10;
     float roomGenerationChanceModifier = 2;
     float directionChangeChanceModifier = 0.5f;
 
@@ -247,39 +247,34 @@ public class LookAheadDigger implements PCGTool {
         };
     }
     private void generateRoom(){
-        System.out.println("room");
-        int totalWidth = mapWidth - 1;
-        int totalHeight = mapHeight - 1;
-
         int roomWidth = ThreadLocalRandom.current().nextInt(minimumRoomDimension, maximumRoomDimension);
         int roomHeight = ThreadLocalRandom.current().nextInt(minimumRoomDimension, maximumRoomDimension);
 
-
-        int startX = agent.x - roomWidth / 2;    // centre room on digger
-        int startY = agent.y - roomHeight / 2;
+        int startX, startY;
         int endX, endY;
 
-        //todo: is this still needed with look ahead coordinate setting?
-        // adjust for left and top edges
-        if (startX < 0){
-            startX = 0;
-        }
-        if (startY < 0){
-            startY = 0;
+        if (direction[0] == 0){
+            startX = agent.x - roomWidth / 2;
+            startY = agent.y + direction[1] * (roomHeight + 1);
+            endX = startX + roomWidth;
+            endY = startY + roomHeight * -direction[1];
+        } else {
+            startX = agent.x + direction[0] * (roomWidth + 1);
+            startY = agent.y - roomHeight / 2;
+            endX = startX + roomWidth * -direction[0];
+            endY = startY + roomHeight;
         }
 
-        endX = startX + roomWidth;
-        endY = startY + roomHeight;
-
-        // adjust for right and bottom edges
-        // assumes rooms may not be bigger than map
-        if (endX > totalWidth){
-            startX -= endX - totalWidth;
-            endX = totalWidth;
+        if (startX > endX){
+            int swap = startX;
+            startX = endX;
+            endX = swap;
         }
-        if (endY > totalHeight){
-            startY -= endY - totalHeight;
-            endY = totalHeight;
+
+        if (startY > endY){
+            int swap = startY;
+            startY = endY;
+            endY = swap;
         }
 
         // draw room
